@@ -1,0 +1,310 @@
+/* ============================================
+   Inventario.css — Paleta: #FFFFFF #007EA7 #003459
+   ============================================ */
+
+/* --- Layout principal --- */
+
+.inventario-wrapper {
+  padding: 40px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  max-width: 680px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+/* --- Encabezado --- */
+.inventario-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #c8e4ef;
+}
+
+.inventario-header h1 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #003459;
+  letter-spacing: -0.3px;
+  margin: 0 0 4px 0;
+}
+
+.inventario-header p {
+  font-size: 13px;
+  color: #5a8fa3;
+  margin: 0;
+}
+
+/* --- Tarjetas de estadísticas --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #f0f8fc;
+  border: 0.5px solid #c8e4ef;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
+.stat-card .stat-label {
+  font-size: 11px;
+  color: #5a8fa3;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: block;
+}
+
+.stat-card .stat-value {
+  font-size: 22px;
+  font-weight: 500;
+  color: #003459;
+  margin-top: 2px;
+  display: block;
+}
+
+/* --- Tarjeta del formulario --- */
+.form-card {
+  background: #ffffff;
+  border: 0.5px solid #c8e4ef;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-card-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: #5a8fa3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Badge que aparece al editar */
+.editing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e6f4fa;
+  color: #007EA7;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* Grid de 3 columnas para los inputs */
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-field label {
+  font-size: 11px;
+  color: #5a8fa3;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.form-field input {
+  height: 36px;
+  border: 0.5px solid #c8e4ef;
+  border-radius: 7px;
+  padding: 0 10px;
+  font-size: 14px;
+  color: #003459;
+  background: #f0f8fc;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-field input:focus {
+  border-color: #007EA7;
+  background: #ffffff;
+}
+
+/* Fila de botones del formulario */
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* --- Botones generales --- */
+.btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s, background 0.15s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Azul oscuro — guardar */
+.btn-primary {
+  background: #003459;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #007EA7;
+}
+
+/* Azul medio — actualizar */
+.btn-success {
+  background: #007EA7;
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background: #005f80;
+}
+
+/* Cancelar — neutro */
+.btn-cancel {
+  background: transparent;
+  color: #5a8fa3;
+  border: 0.5px solid #c8e4ef;
+}
+
+.btn-cancel:hover {
+  background: #f0f8fc;
+}
+
+/* --- Tabla de productos --- */
+.table-wrap {
+  border: 0.5px solid #c8e4ef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.inventario-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.inventario-table thead th {
+  background: #003459;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.inventario-table thead th.col-acciones {
+  text-align: right;
+}
+
+.inventario-table tbody tr {
+  border-bottom: 0.5px solid #c8e4ef;
+  transition: background 0.1s;
+}
+
+.inventario-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.inventario-table tbody tr:hover {
+  background: #f0f8fc;
+}
+
+.inventario-table tbody td {
+  padding: 11px 14px;
+  color: #003459;
+  vertical-align: middle;
+}
+
+.td-precio {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* Pill de stock */
+.stock-pill {
+  display: inline-block;
+  background: #e6f4fa;
+  color: #007EA7;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Celda de acciones */
+.td-acciones {
+  text-align: right;
+}
+
+.acciones-wrap {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* Botón Editar */
+.btn-editar {
+  background: transparent;
+  border: 0.5px solid #c8e4ef;
+  color: #5a8fa3;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.btn-editar:hover {
+  border-color: #007EA7;
+  color: #007EA7;
+  background: #e6f4fa;
+}
+
+/* Botón Borrar */
+.btn-borrar {
+  background: transparent;
+  border: 0.5px solid #f5c6c2;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.btn-borrar:hover {
+  background: #fdf0ef;
+}
+
+/* Fila vacía */
+.tabla-vacia {
+  text-align: center;
+  padding: 2.5rem;
+  color: #5a8fa3;
+  font-size: 14px;
+}
