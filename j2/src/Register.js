@@ -1,52 +1,53 @@
-// src/Login.js
+// src/Register.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Inventario.css';
 
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    setError(''); // Limpiar errores previos
+    setError('');
+
+    // Validación: las contraseñas deben coincidir
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      return;
+    }
+
+    // Validación: contraseña mínima de 6 caracteres
+    if (password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres');
+      return;
+    }
+
     setLoading(true); // Activar estado de carga
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al iniciar sesión');
+        throw new Error(data.error || 'Error al registrar usuario');
       }
 
-      // Guardar el token en el navegador
-      localStorage.setItem('token', data.token);
-      
-      // Guardar información del usuario (incluyendo el rol)
-      localStorage.setItem('user', JSON.stringify(data.user));
-
-      // REDIRECCIÓN SEGÚN EL ROL
-      if (data.user.rol === 'admin') {
-        // Si es admin, redirigir al inventario
-        navigate('/inventario');
-      } else if (data.user.rol === 'cliente') {
-        // Si es cliente, redirigir a la vista de activación
-        navigate('/activacion');
-      } else {
-        // Por seguridad, si hay un rol desconocido
-        setError('Rol de usuario no reconocido');
-      }
+      // Registro exitoso, redirigir al login
+      alert('¡Registro exitoso! Ya puedes iniciar sesión.');
+      navigate('/login');
 
     } catch (err) {
       setError(err.message);
@@ -58,8 +59,8 @@ export default function Login() {
   return (
     <div className="inventario-wrapper">
       <div className="inventario-header">
-        <h1>Iniciar Sesión</h1>
-        <p>Sistema de Inventario · Fastech</p>
+        <h1>Crear cuenta</h1>
+        <p>Registro de nuevo usuario</p>
       </div>
 
       <div className="form-card" style={{ maxWidth: '420px', margin: '0 auto' }}>
@@ -77,11 +78,11 @@ export default function Login() {
           </div>
         )}
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleRegister}>
           <div className="form-field" style={{ marginBottom: '14px' }}>
-            <label htmlFor="inp-usuario">Usuario</label>
+            <label htmlFor="inp-username">Usuario</label>
             <input
-              id="inp-usuario"
+              id="inp-username"
               type="text"
               placeholder="Nombre de usuario"
               value={username}
@@ -91,14 +92,40 @@ export default function Login() {
             />
           </div>
 
-          <div className="form-field" style={{ marginBottom: '18px' }}>
+          <div className="form-field" style={{ marginBottom: '14px' }}>
+            <label htmlFor="inp-email">Correo electrónico</label>
+            <input
+              id="inp-email"
+              type="email"
+              placeholder="correo@ejemplo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
+
+          <div className="form-field" style={{ marginBottom: '14px' }}>
             <label htmlFor="inp-password">Contraseña</label>
             <input
               id="inp-password"
               type="password"
-              placeholder="Tu contraseña"
+              placeholder="Mínimo 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
+
+          <div className="form-field" style={{ marginBottom: '18px' }}>
+            <label htmlFor="inp-confirm-password">Confirmar contraseña</label>
+            <input
+              id="inp-confirm-password"
+              type="password"
+              placeholder="Repite tu contraseña"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
               disabled={loading}
             />
@@ -111,14 +138,14 @@ export default function Login() {
               style={{ width: '100%' }}
               disabled={loading}
             >
-              {loading ? 'Cargando...' : 'Ingresar'}
+              {loading ? 'Cargando...' : 'Registrarse'}
             </button>
           </div>
 
           <div style={{ textAlign: 'center', fontSize: '13px', color: '#5a8fa3' }}>
-            ¿No tienes cuenta?{' '}
+            ¿Ya tienes cuenta?{' '}
             <span 
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/login')}
               style={{ 
                 color: '#007EA7', 
                 cursor: 'pointer',
@@ -126,7 +153,7 @@ export default function Login() {
                 textDecoration: 'underline'
               }}
             >
-              Regístrate aquí
+              Inicia sesión aquí
             </span>
           </div>
         </form>
