@@ -1,70 +1,329 @@
-# Getting Started with Create React App
+# 📦 Fastech Inventory System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Un sistema completo de gestión de inventario con autenticación de usuarios, roles y CRUD de productos. Construido con **React** en el frontend y **Node.js/Express** en el backend.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🏗️ Estructura del Proyecto
 
-### `npm start`
+```
+fastech-inventory/
+├── Server.js                 # Servidor Express principal
+├── src/                      # Componentes React
+│   ├── App.js               # Componente principal con ruteo
+│   ├── Login.js             # Componente de login
+│   ├── Register.js          # Componente de registro
+│   └── Inventario.css       # Estilos globales
+├── node_modules/            # Dependencias del proyecto (no incluido)
+├── public/                  # Archivos estáticos (no incluido)
+├── package.json             # Dependencias del proyecto
+└── .env                      # Variables de entorno (no incluido)
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Características Principales
 
-### `npm test`
+### 🔐 Autenticación
+- **Registro de usuarios** con validaciones
+- **Login con JWT** (tokens de 2 horas)
+- **Encriptación de contraseñas** con bcryptjs
+- **Sistema de roles** (cliente, admin, etc.)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 📊 Gestión de Inventario
+- **CRUD completo** de productos
+- **Validaciones** en precio y cantidad
+- **Actualización en tiempo real** del inventario
+- **Búsqueda y filtrado** de productos
 
-### `npm run build`
+### 🛡️ Seguridad
+- Tokens JWT con expiración
+- Contraseñas hasheadas
+- Validación de datos en servidor
+- CORS habilitado
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 💻 Tecnologías
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Backend
+- **Node.js** - Runtime de JavaScript
+- **Express.js** - Framework web
+- **MySQL** - Base de datos
+- **bcryptjs** - Hash de contraseñas
+- **jsonwebtoken** - Autenticación JWT
+- **dotenv** - Variables de entorno
 
-### `npm run eject`
+### Frontend
+- **React** - Librería UI
+- **React Router** - Enrutamiento
+- **Fetch API** - Peticiones HTTP
+- **CSS3** - Estilos personalizados
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📋 Requisitos Previos
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Node.js v14+ 
+- MySQL Server 5.7+
+- npm o yarn
+- Un editor de código (VS Code recomendado)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🔧 Instalación
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 1. **Clonar el repositorio**
+```bash
+git clone <url-del-repositorio>
+cd fastech-inventory
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 2. **Instalar dependencias**
+```bash
+npm install
+```
 
-### Code Splitting
+### 3. **Configurar la base de datos MySQL**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Crea una base de datos llamada `fastech_db`:
 
-### Analyzing the Bundle Size
+```sql
+CREATE DATABASE fastech_db;
+USE fastech_db;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+-- Tabla de usuarios
+CREATE TABLE usuarios (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) UNIQUE NOT NULL,
+  correo VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  rol VARCHAR(50) DEFAULT 'cliente',
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-### Making a Progressive Web App
+-- Tabla de productos
+CREATE TABLE productos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(255) NOT NULL,
+  precio DECIMAL(10, 2) NOT NULL,
+  stock INT DEFAULT 0,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 4. **Configurar variables de entorno**
 
-### Advanced Configuration
+Crea un archivo `.env` en la raíz del proyecto:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```env
+JWT_SECRET=tu_secret_key_muy_segura_aqui
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=tu_contraseña_mysql
+DB_NAME=fastech_db
+PORT=5000
+```
 
-### Deployment
+**⚠️ Nota:** Reemplaza las credenciales de MySQL con las tuyas.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 5. **Iniciar el servidor**
 
-### `npm run build` fails to minify
+```bash
+node Server.js
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+El servidor estará disponible en `http://localhost:5000`
+
+### 6. **Iniciar el frontend React** (en otra terminal)
+
+```bash
+npm start
+```
+
+La aplicación estará disponible en `http://localhost:3000`
+
+---
+
+## 📡 Endpoints del API
+
+### Autenticación
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `POST` | `/api/auth/register` | Registrar nuevo usuario |
+| `POST` | `/api/auth/login` | Iniciar sesión |
+
+**Registro:**
+```json
+{
+  "username": "juan",
+  "email": "juan@example.com",
+  "password": "password123"
+}
+```
+
+**Login:**
+```json
+{
+  "username": "juan",
+  "password": "password123"
+}
+```
+
+### Productos
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/productos` | Obtener todos los productos |
+| `POST` | `/productos` | Crear nuevo producto |
+| `PUT` | `/productos/:id` | Actualizar producto |
+| `DELETE` | `/productos/:id` | Eliminar producto |
+
+**Crear/Actualizar Producto:**
+```json
+{
+  "nombre": "Laptop Dell",
+  "precio": 899.99,
+  "stock": 15
+}
+```
+
+---
+
+## 🎯 Flujo de la Aplicación
+
+```
+┌─────────────────────┐
+│   Usuario Nuevo     │
+└──────────┬──────────┘
+           │
+           ▼
+    ┌──────────────┐
+    │   REGISTER   │
+    └──────┬───────┘
+           │
+           ▼ (Success)
+    ┌──────────────┐      ┌──────────────┐
+    │    LOGIN     │◄─────┤   Usuario    │
+    └──────┬───────┘      │   Existente  │
+           │              └──────────────┘
+           ▼ (JWT Token)
+    ┌──────────────────────┐
+    │  DASHBOARD           │
+    │  (Ver Inventario)    │
+    └──────┬───────────────┘
+           │
+     ┌─────┴─────┐
+     │           │
+     ▼           ▼
+  Agregar    Editar/
+  Producto   Eliminar
+```
+
+---
+
+## 🧪 Validaciones Implementadas
+
+### Backend
+- ✅ Nombre de producto no vacío
+- ✅ Precio no negativo
+- ✅ Contraseña mínimo 6 caracteres
+- ✅ Email único en registro
+- ✅ Usuario único en registro
+- ✅ Validación de JWT en requests
+
+### Frontend
+- ✅ Campos requeridos en formularios
+- ✅ Coincidencia de contraseñas
+- ✅ Mensajes de error dinámicos
+- ✅ Estados de carga en peticiones
+
+---
+
+## 🔑 Variables de Entorno
+
+```env
+# Autenticación
+JWT_SECRET=your_secret_key_here
+
+# Base de Datos
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=fastech_db
+
+# Servidor
+PORT=5000
+NODE_ENV=development
+```
+
+---
+
+## 📝 Notas Importantes
+
+### Seguridad
+- **Nunca** commits credenciales reales en el repositorio
+- Usa `.gitignore` para proteger `.env`
+- Cambia `JWT_SECRET` en producción
+- Implementa HTTPS en producción
+
+### Base de Datos
+- El servidor espera MySQL en `localhost`
+- Credenciales por defecto: `root` / `stopthetime98.`
+- **⚠️ Cambia estas credenciales antes de desplegar**
+
+---
+
+## 🐛 Solución de Problemas
+
+### Error: "ECONNREFUSED" en conexión a MySQL
+- ✅ Verifica que MySQL Server esté corriendo
+- ✅ Revisa las credenciales en `.env`
+- ✅ Asegúrate de que la DB existe: `CREATE DATABASE fastech_db;`
+
+### Error: "PORT 5000 already in use"
+- ✅ Cambia el puerto en `Server.js` y `.env`
+- ✅ O termina el proceso: `lsof -ti:5000 | xargs kill -9`
+
+### Error: "JWT not found"
+- ✅ Asegúrate de estar autenticado
+- ✅ Revisa que el token se guardó en localStorage
+- ✅ Verifica que `JWT_SECRET` está configurado
+
+---
+
+## 📦 Dependencias Principales
+
+```json
+{
+  "backend": {
+    "express": "^4.x",
+    "mysql2": "^3.x",
+    "bcryptjs": "^2.x",
+    "jsonwebtoken": "^9.x",
+    "cors": "^2.x",
+    "dotenv": "^16.x"
+  },
+  "frontend": {
+    "react": "^18.x",
+    "react-router-dom": "^6.x"
+  }
+}
+```
+
+---
+
+## 👤 Roles de Usuario
+
+- **cliente** - Rol por defecto al registrarse
+- **admin** - Acceso total al sistema (asignar manualmente en DB)
+
+---
+
+## 📄 Licencia
+
+Este proyecto es de código abierto. Úsalo libremente.
+
+
+
