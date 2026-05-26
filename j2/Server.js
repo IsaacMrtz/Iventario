@@ -10,9 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ==========================================
+
 // CONFIGURACIÓN DE LA BASE DE DATOS
-// ==========================================
+
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root', // Tu usuario de MySQL
@@ -20,9 +20,9 @@ const db = mysql.createConnection({
   database: 'fastech_db'
 });
 
-// ==========================================
+
 // RUTAS DE PRODUCTOS
-// ==========================================
+
 
 // Ruta para obtener productos
 app.get('/productos', (req, res) => {
@@ -142,9 +142,8 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-// ==========================================
+
 // ENDPOINT DE LOGIN (CON ROL EN RESPUESTA)
-// ==========================================
 app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
 
